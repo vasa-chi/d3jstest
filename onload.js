@@ -4,26 +4,29 @@
 
   $(function() {
     var arc, change, color, dataset, height, path, pie, radius, svg, width;
-    dataset = {
-      apples: [53245, 28479],
-      oranges: [200, 200]
+    dataset = function() {
+      return $('input#done, input#need').map(function() {
+        return parseInt($(this).val(), 10) || 0;
+      }).get();
     };
-    width = 1109;
-    height = 910;
-    radius = 100;
-    color = d3.scale.category20();
+    width = 350;
+    height = 350;
+    radius = Math.min(width, height) / 2;
+    arc = d3.svg.arc().innerRadius(radius - 90).outerRadius(radius - 10);
     pie = d3.layout.pie().sort(null);
-    arc = d3.svg.arc().innerRadius(radius - 40).outerRadius(radius - 20);
-    svg = d3.select("body").append("svg").attr("width", width).attr("height", height).append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-    path = svg.selectAll("path").data(pie(dataset.apples)).enter().append("path").attr("fill", function(d, i) {
+    color = d3.scale.ordinal().range(['#00FF00', '#FF0000']);
+    svg = d3.select('#target').append('svg').attr({
+      width: width,
+      height: height
+    }).append('g').attr('transform', "translate(" + (width / 2) + ", " + (height / 2) + ")");
+    path = svg.selectAll('path').data(pie(dataset())).enter().append('path').attr('fill', function(d, i) {
       return color(i);
-    }).attr("d", arc);
+    }).attr('d', arc);
     change = function() {
-      console.log([parseInt($('#one').val(), 10) || 1, parseInt($('#two').val(), 10) || 1]);
-      path = path.data(pie([parseInt($('#one').val(), 10) || 1, parseInt($('#two').val(), 10) || 1]));
-      return path.attr("d", arc);
+      path = path.data(pie(dataset()));
+      return path.attr('d', arc);
     };
-    return $('#one, #two').on("change", change).change();
+    return $('#done, #need').on('change', change).change();
   });
 
 }).call(this);

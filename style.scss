@@ -1,0 +1,30 @@
+#fon {
+  background-image : url("fon.png");
+  height           : 910px;
+  width            : 1109px;
+}
+
+#target {
+  position : absolute;
+  left     : 392px;
+  top      : 38px;
+}
+
+input.inp {
+  position         : absolute;
+  font-size        : 26px;
+  width            : 166px;
+  text-align       : right;
+  background-color : rgba(0, 0, 0, 0);
+  border-color     : rgba(0, 0, 0, 0)
+}
+
+input#done {
+  top  : 234px;
+  left : 202px;
+}
+
+input#need {
+  top  : 231px;
+  left : 760px
+}
