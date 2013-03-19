@@ -34,4 +34,4 @@ $ ->
                path = path.data pie dataset()
                path.attr('d', arc)
 
-    $('#done, #need').on('change', change).change()
+    $('#done, #need').bind('change', change).change()
