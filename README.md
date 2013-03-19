@@ -9,3 +9,6 @@ d3jstest
 
 ------
 `style.css` - цсс, отвечающий за позиционирование элементов и их легкую стилизацию. Сгенерирован из `style.scss`
+
+------
+Пример: http://apex-pie.s3-external-3.amazonaws.com/index.html
