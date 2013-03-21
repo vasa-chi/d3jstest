@@ -1,7 +1,9 @@
 $ ->
+    $inputs = $('#P1_V_02, #P1_V_03')
+
     dataset = () ->
-                $('input#done, input#need').map(->
-                                                  parseInt($(@).val(), 10) || 0).get()
+                $inputs.map(->
+                              parseInt($(@).val(), 10) || 0).get()
 
     width = 350
     height = 350
@@ -22,6 +24,7 @@ $ ->
                height : height)
       .append('g')
       .attr('transform', "translate(#{width / 2}, #{height / 2})")
+      .attr('class', 'testclass')
 
     path = svg.selectAll('path')
       .data(pie(dataset()))
@@ -29,9 +32,17 @@ $ ->
       .attr('fill', (d, i) ->
                       color(i))
       .attr('d', arc)
+      .each((d) ->
+              @._current = d)
+
+    arcTween = (a) ->
+                 i = d3.interpolate(this._current, a)
+                 this._current = i(0)
+                 (t) ->
+                   arc i t
 
     change = () ->
                path = path.data pie dataset()
-               path.attr('d', arc)
+               path.transition().duration(500).attrTween('d', arcTween)
 
-    $('#done, #need').bind('change', change).change()
+    $inputs.bind('change', change).change()
